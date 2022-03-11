@@ -1,0 +1,12 @@
+flush ruleset
+
+table inet test {
+  chain prerouting {
+    type filter hook prerouting priority 0;
+    queue num 114
+  }
+  chain output {
+    type filter hook output priority 0;
+    queue num 514
+  }
+}
