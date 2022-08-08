@@ -32,7 +32,7 @@ int callback(enum nf_conntrack_msg_type type, struct nf_conntrack *ct, void *dat
 int ct_init() {
   handle = nfct_open(CONNTRACK, 0);
   ct = nfct_new();
-  if (!handle || !ct) return -1;
+  if (!handle || !ct) return 1;
   nfct_callback_register(handle, NFCT_T_ALL, callback, ct);
   return 0;
 }
@@ -56,7 +56,7 @@ int ct_query(int flag, int l4proto, void* src, void *dst, uint16_t sport, uint16
   nfct_set_attr_u16(ct, ATTR_PORT_DST, dport);
   int ret = nfct_query(handle, NFCT_Q_DUMP, &family);
   if (ret != 0 || result_flag != CT_QUERY_IGNORE) {
-    return -1;
+    return 1;
   }
   if (flag == CT_QUERY_SRC) {
     memcpy(src, result, sizeof(result));
